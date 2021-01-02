@@ -52,8 +52,10 @@ export default class ModalView extends React.Component {
   displayLastEntry = async () => {
     const path = getPath();
     const lastEntry = await getData(path);
-    const { text, emotionSelected } = lastEntry;
-    this.setState({ text, emotionSelected });
+    if (lastEntry) {
+      const { text, emotionSelected } = lastEntry;
+      this.setState({ text, emotionSelected });
+    }
   };
 
   submit = () => {

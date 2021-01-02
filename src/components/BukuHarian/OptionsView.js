@@ -23,7 +23,7 @@ export default class OptionsView extends React.Component {
   render() {
     // TODO: getPhoto
     const { pickerVisible } = this.state;
-    const { hapus, submit, emotionSelected, getPhoto } = this.props;
+    const { submit, emotionSelected, getPhoto } = this.props;
     return (
       <View>
         <View style={styles.container}>
@@ -37,7 +37,7 @@ export default class OptionsView extends React.Component {
           <TouchableOpacity onPress={() => submit()}>
             <Icon name="send" size={30} color="darkslateblue" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => hapus()}>
+          <TouchableOpacity onPress={() => this.props.delete()}>
             <Icon name="delete" size={30} color="teal" />
           </TouchableOpacity>
         </View>
