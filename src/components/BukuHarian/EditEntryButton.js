@@ -2,9 +2,9 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-export default NewEntryButton = ({ onPress }) => (
+export default EditEntryButton = ({ onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.container}>
-    <Icon name="add" size={40} color="white" />
+    <Icon name="create" size={40} color="white" />
   </TouchableOpacity>
 );
 
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 30,
     bottom: 30,
-    backgroundColor: "orange",
+    backgroundColor: "teal",
     borderRadius: 100,
     padding: 20,
     shadowColor: "#000",

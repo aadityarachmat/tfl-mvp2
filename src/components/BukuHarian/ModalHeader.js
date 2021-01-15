@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 
 export default ModalHeader = ({ currentDate, toggleModal }) => (
-  <View style={styles.headerView}>
+  <View style={styles.container}>
     <View>
       <Text style={styles.title}>Buku Harian</Text>
       <Text style={styles.date}>{currentDate}</Text>
@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "cadetblue",
   },
-  headerView: {
+  container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 20,
   },
   date: {
     marginBottom: 40,

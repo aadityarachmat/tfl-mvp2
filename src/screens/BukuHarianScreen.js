@@ -5,7 +5,8 @@ import { Calendar } from "react-native-calendars";
 
 import { getUserId } from "../helperfns/InitializeUser";
 
-import Masukan from "../components/BukuHarian/Masukan";
+import EntryPreview from "../components/BukuHarian/EntryPreview";
+import EntryPreviews from "../components/BukuHarian/EntryPreviews";
 import ModalView from "../components/BukuHarian/ModalView";
 import NewEntryButton from "../components/BukuHarian/NewEntryButton";
 
@@ -18,6 +19,7 @@ export default class BukuHarianScreen extends React.Component {
     month: {},
     uri: "",
     userId: "testUserId",
+    day: "",
   };
 
   componentDidMount() {
@@ -31,7 +33,7 @@ export default class BukuHarianScreen extends React.Component {
     const userId = getUserId();
     const currentDate = getDate();
     const markedDates = {};
-    let masukanBaruText = "";
+    let EntryPreviewBaruText = "";
 
     // Get bukuHarianEntries
     bukuHarianEntries = await database
@@ -45,17 +47,15 @@ export default class BukuHarianScreen extends React.Component {
         }
       });
 
-    console.log(bukuHarianEntries)
-
     // Mark dates with entries
     for (let [key, value] of Object.entries(bukuHarianEntries)) {
       markedDates[key] = { marked: true };
-      // console.log("key", key)
     }
 
-    // Set the value of masukanBaruText if the user saved an entry earlier today
+    // Set the value of EntryPreviewBaruText if the user saved an entry earlier today
     if (bukuHarianEntries[currentDate]) {
-      masukanBaruText = bukuHarianEntries[currentDate].masukanBaruText;
+      EntryPreviewBaruText =
+        bukuHarianEntries[currentDate].EntryPreviewBaruText;
     }
 
     this.setState({
@@ -63,7 +63,7 @@ export default class BukuHarianScreen extends React.Component {
       markedDates,
       currentDate,
       userId,
-      masukanBaruText,
+      EntryPreviewBaruText,
     });
   }
 
@@ -79,7 +79,7 @@ export default class BukuHarianScreen extends React.Component {
 
   render() {
     const { bukuHarianEntries, markedDates, day, modalVisible } = this.state;
-
+    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -101,7 +101,17 @@ export default class BukuHarianScreen extends React.Component {
           markedDates={markedDates}
         ></Calendar>
 
-        <Masukan entries={bukuHarianEntries} day={day} />
+        <EntryPreviews
+          entries={bukuHarianEntries}
+          navigation={navigation}
+          day={day}
+        />
+
+        {/* <EntryPreview
+          entries={bukuHarianEntries}
+          day={day}
+          navigation={navigation}
+        /> */}
         <NewEntryButton onPress={() => this.toggleModal()} />
       </View>
     );
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  masukanTanggal: {
+  EntryPreviewTanggal: {
     marginBottom: 10,
     fontSize: 20,
   },

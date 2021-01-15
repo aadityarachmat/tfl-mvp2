@@ -49,12 +49,20 @@ export default class JurnalCard extends React.Component {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    borderWidth: 1,
     borderColor: "lightgrey",
     backgroundColor: "#fff",
     marginHorizontal: 10,
     marginVertical: 10,
     padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   title: {
     fontSize: 22,

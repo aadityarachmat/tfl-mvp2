@@ -45,7 +45,9 @@ export default class ModalView extends React.Component {
   // Buggy for some reasonnnnn
   displayLastPhoto = async () => {
     const path = getPath();
+    console.log(path);
     const uri = await getImageURI(path);
+    console.log("modal view uri", uri);
     if (uri) this.setState({ uri });
   };
 
@@ -149,7 +151,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-  image: { height: 100, width: 100, marginBottom: 20, borderRadius: 10 },
+  image: {
+    height: 300,
+    width: "90%",
+    marginBottom: 20,
+    borderRadius: 10,
+    alignSelf: "center",
+  },
   input: {
     paddingTop: 20,
     fontSize: 18,

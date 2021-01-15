@@ -14,24 +14,28 @@ export const toDateString = (dateObject) => {
     date = `${year}-0${month}-${day}`;
   } else if (day < 10) {
     date = `${year}-${month}-0${day}`;
+  } else {
+    date = `${year}-${month}-${day}`;
   }
-  else {
-    date = `${year}-${month}-${day}`
-  }
-  console.log(date)
   return date;
 };
 
 export const toDateObject = (dateString) => {
   const year = parseInt(dateString.substring(0, 4));
-  const month = parseInt(dateString.substring(6, 8));
-  const day = parseInt(dateString.substring(9, 11));
+  const month = parseInt(dateString.substring(5, 7)) - 1;
+  const day = parseInt(dateString.substring(8, 10)) + 1;
+
+  console.log("dateString", dateString);
+  console.log("yearString", dateString.substring(0, 4));
+  console.log("monthString", dateString.substring(6, 8));
+  console.log("dayString", dateString.substring(9, 11));
+  console.log("dateObject year", year, "month", month, "day", day);
   return new Date(year, month, day);
 };
 
 export const getLastDays = (dateObject, days) => {
   let result = [];
-  dateObject.setDate(dateObject.getDate() - days + 1);
+  dateObject.setDate(dateObject.getDate() - days);
   for (i = 0; i < days; i++) {
     result.push(toDateString(dateObject));
     dateObject.setDate(dateObject.getDate() + 1);

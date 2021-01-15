@@ -13,7 +13,6 @@ export const getData = async (path) => {
     .once("value")
     .then((snap) => snap.val())
     .catch((error) => {
-      console.log(JSON.stringify(error));
       return null;
     });
 };
@@ -29,12 +28,14 @@ export const uploadImage = async (path, uri) => {
   await firebase.storage().ref(path).put(blob);
 };
 
+// If requires changes, also change components/BukuHarian/Masukan's getImageURI
 export const getImageURI = async (path) => {
   return firebase
     .storage()
     .ref(path)
     .getDownloadURL()
     .catch((error) => {
+      console.log("there is an error in getImageURI");
       return null;
     });
 };
