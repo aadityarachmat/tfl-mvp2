@@ -9,7 +9,7 @@ const ToggleMinimizedButton = ({ minimized, toggleCalendar }) => (
   </TouchableOpacity>
 );
 
-export default Minimize = ({ title, toggleCalendar, minimized }) => (
+export default ToggleCalendar = ({ title, toggleCalendar, minimized }) => (
   <View style={styles.container}>
     <ToggleMinimizedButton
       minimized={minimized}
