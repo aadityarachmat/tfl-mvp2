@@ -41,8 +41,8 @@ export default class JurnalAktivitasScreen extends React.Component {
     super(props);
     const userId = getUserId();
     const date = getDate();
-    const itemsPath = `userData/${userId}/JurnalAktivitas/${date}`;
-    const imagesPath = `userData/${userId}/JurnalAktivitas/${date}`;
+    const itemsPath = `userData/${userId}/jurnal/${date}/aktivitas`;
+    const imagesPath = `userData/${userId}/jurnal/${date}/aktivitas`;
     this.state = {
       bersama: BERSAMA_DEFAULT,
       beraktivitas: BERAKTIVITAS_DEFAULT,

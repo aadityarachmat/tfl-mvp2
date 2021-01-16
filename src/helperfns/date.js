@@ -25,11 +25,6 @@ export const toDateObject = (dateString) => {
   const month = parseInt(dateString.substring(5, 7)) - 1;
   const day = parseInt(dateString.substring(8, 10)) + 1;
 
-  console.log("dateString", dateString);
-  console.log("yearString", dateString.substring(0, 4));
-  console.log("monthString", dateString.substring(6, 8));
-  console.log("dayString", dateString.substring(9, 11));
-  console.log("dateObject year", year, "month", month, "day", day);
   return new Date(year, month, day);
 };
 

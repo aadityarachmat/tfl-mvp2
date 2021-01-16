@@ -106,12 +106,6 @@ export default class BukuHarianScreen extends React.Component {
           navigation={navigation}
           day={day}
         />
-
-        {/* <EntryPreview
-          entries={bukuHarianEntries}
-          day={day}
-          navigation={navigation}
-        /> */}
         <NewEntryButton onPress={() => this.toggleModal()} />
       </View>
     );

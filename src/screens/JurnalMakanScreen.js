@@ -17,8 +17,8 @@ export default class JurnalMakanScreen extends React.Component {
     super(props);
     const userId = getUserId();
     const date = getDate();
-    const itemsPath = `userData/${userId}/JurnalMakan/${date}`;
-    const imagesPath = `userData/${userId}/JurnalMakan/${date}`;
+    const itemsPath = `userData/${userId}/jurnal/${date}/makan`;
+    const imagesPath = `userData/${userId}/jurnal/${date}/makan`;
     this.state = {
       sarapanku: SARAPANKU_DEFAULT,
       makanSiangku: SARAPANKU_DEFAULT,

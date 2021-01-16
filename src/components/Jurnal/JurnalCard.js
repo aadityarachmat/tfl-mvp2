@@ -2,47 +2,76 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { getJurnalData, toObjectOfArrays } from "../../helperfns/jurnalHelpers";
+import { getUserId } from "../../helperfns/InitializeUser";
+import { getData } from "../../helperfns/firebaseHelpers";
 
 import Grids from "./Grids";
 
 export default class JurnalCard extends React.Component {
   state = {
-    aktivitas: "",
-    makan: "",
+    aktivitas: {},
+    makan: {},
   };
 
   componentDidMount() {
-    this.getData();
+    this.setDataToState();
   }
 
-  getData = async () => {
-    const { date } = this.props;
-    const aktivitasObj = await getJurnalData(date, "JurnalAktivitas");
-    const makanObj = await getJurnalData(date, "JurnalMakan");
-    const aktivitas = toObjectOfArrays(aktivitasObj);
-    const makan = toObjectOfArrays(makanObj);
-    console.log(aktivitas, makan);
-    this.setState({ aktivitas, makan });
+  setDataToState = () => {
+    const { date, data } = this.props;
+
+    if (data[date]) {
+      const aktivitasObj = data[date]["aktivitas"];
+      const makanObj = data[date]["makan"];
+      const aktivitas = toObjectOfArrays(aktivitasObj);
+      const makan = toObjectOfArrays(makanObj);
+
+      this.setState({ aktivitas, makan });
+    }
   };
 
   // type is for making the photos path
   render() {
     const { aktivitas, makan } = this.state;
-    if (
-      Object.keys(aktivitas).length === 0 &&
-      Object.keys(makan).length === 0
-    ) {
-      return null;
+
+    const { date } = this.props;
+
+    if (aktivitas && makan) {
+      console.log("aktivitas && makan");
+      return (
+        <View style={styles.card}>
+          <Text style={styles.title}>{date}</Text>
+          <Text>Aktivitas:</Text>
+          <Grids data={aktivitas} type="JurnalAktivitas" />
+          <Text>Makan:</Text>
+          <Grids data={makan} type="JurnalMakan" />
+        </View>
+      );
     }
-    return (
-      <View style={styles.card}>
-        <Text style={styles.title}>{this.props.date}</Text>
-        <Text>Aktivitas:</Text>
-        <Grids data={aktivitas} type="JurnalAktivitas" />
-        <Text>Makan:</Text>
-        <Grids data={makan} type="JurnalMakan" />
-      </View>
-    );
+
+    if (aktivitas) {
+      console.log("aktivitas");
+      return (
+        <View style={styles.card}>
+          <Text style={styles.title}>{date}</Text>
+          <Text>Aktivitas:</Text>
+          <Grids data={aktivitas} type="JurnalAktivitas" />
+        </View>
+      );
+    }
+
+    if (makan) {
+      console.log("makan");
+      return (
+        <View>
+          <Text style={styles.title}>{date}</Text>
+          <Text>Makan:</Text>
+          <Grids data={makan} type="JurnalMakan" />
+        </View>
+      );
+    }
+
+    return null;
   }
 }
 
