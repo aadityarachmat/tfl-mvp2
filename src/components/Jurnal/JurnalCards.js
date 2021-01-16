@@ -6,6 +6,10 @@ import { toDateObject, getLastDays } from "../../helperfns/date";
 
 import JurnalCard from "./JurnalCard";
 
+const colors = {
+  background: "white",
+};
+
 export default class JurnalCards extends React.Component {
   render() {
     const { day, data } = this.props;
@@ -26,7 +30,7 @@ export default class JurnalCards extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.background },
   viewToPreventButtonsFromObscuringContent: {
     height: 120,
   },

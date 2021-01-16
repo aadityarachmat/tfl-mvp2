@@ -35,10 +35,16 @@ const getImageURI = async (path) => {
 
 const shortenText = (text) => {
   const length = text.length;
-  if (length > 60) {
-    return text.substring(0, 59) + "...";
+  if (length > 40) {
+    return text.substring(0, 39) + "...";
   }
   return text;
+};
+
+const colors = {
+  header: "black",
+  text: "grey",
+  background: "white",
 };
 
 export default class EntryPreview extends React.Component {
@@ -105,7 +111,7 @@ export default class EntryPreview extends React.Component {
 
           <View style={styles.textView}>
             <View style={styles.dateView}>
-              <Icon name="today" size={25} color="teal" />
+              <Icon name="today" size={25} color={colors.header} />
               <Text style={styles.dateText}>{day}</Text>
             </View>
 
@@ -128,22 +134,14 @@ const styles = StyleSheet.create({
   container: {
     height: 200,
     width: "94%",
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-
-    elevation: 12,
-    borderRadius: 10,
+    backgroundColor: colors.background,
     alignSelf: "center",
     marginTop: 20,
+    borderLeftWidth: 1,
   },
   dateView: {
     flexDirection: "row",
+    marginBottom: 10,
   },
   textView: {
     margin: 20,
@@ -152,12 +150,12 @@ const styles = StyleSheet.create({
   dateText: {
     fontWeight: "bold",
     fontSize: 20,
-    color: "teal",
-    textDecorationLine: "underline",
+    color: colors.header,
   },
   EntryPreviewText: {
     marginBottom: 10,
     fontSize: 20,
+    color: colors.text,
   },
   imageView: {
     position: "absolute",

@@ -9,6 +9,13 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import EditEntryButton from "../components/BukuHarian/EditEntryButton";
 
+const colors = {
+  header: "black",
+  text: "grey",
+  cardBackground: "white",
+  background: "white",
+};
+
 export default class MasukanDetailsScreen extends React.Component {
   render() {
     const { route } = this.props;
@@ -23,9 +30,9 @@ export default class MasukanDetailsScreen extends React.Component {
               <Text>Loading...</Text>
             )}
           </View>
-          <View style={[styles.textView, styles.shadow]}>
+          <View style={[styles.cardView, styles.shadow]}>
             <View style={styles.dateView}>
-              <Icon name="today" size={35} color="teal" />
+              <Icon name="today" size={35} color={colors.header} />
               <Text style={styles.dateText}>{day}</Text>
             </View>
             <Text style={styles.emoji}>
@@ -42,17 +49,15 @@ export default class MasukanDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { backgroundColor: colors.background },
   scrollView: {
     padding: 20,
     height: "100%",
-    backgroundColor: "white",
   },
   dateText: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "teal",
-    textDecorationLine: "underline",
+    color: colors.header,
   },
   dateView: {
     flexDirection: "row",
@@ -66,11 +71,13 @@ const styles = StyleSheet.create({
   },
   masukanText: {
     fontSize: 18,
+    color: colors.text,
+    textAlign: "center",
   },
   image: { height: "100%", width: "100%", borderRadius: 10 },
-  textView: {
+  cardView: {
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: colors.cardBackground,
     borderRadius: 10,
     alignItems: "center",
   },
@@ -79,17 +86,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 20,
     borderRadius: 10,
-  },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
   },
   preventsButtonFromObscuringContent: {
     height: 150,

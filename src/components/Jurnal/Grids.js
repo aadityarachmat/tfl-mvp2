@@ -7,6 +7,23 @@ import { getImageURI } from "../../helperfns/firebaseHelpers";
 import { getUserId } from "../../helperfns/InitializeUser";
 import getDate from "../../helperfns/date";
 
+const interpret = (text) => {
+  switch (text) {
+    case "beraktivitas":
+      return "Hari ini aku beraktivitas...";
+    case "bersama":
+      return "Hari ini aku bersama...";
+    case "berada":
+      return "Hari ini aku berada di...";
+    case "sarapanku":
+      return "Sarapanku...";
+    case "makanSiangku":
+      return "Makan Siangku...";
+    case "makanMalamku":
+      return "Makan Malamku...";
+  }
+};
+
 const Column = ({ item }) => (
   <View style={styles.column}>
     {getIcon(item)}
@@ -35,7 +52,7 @@ const Grid = ({ items }) => {
   );
 };
 
-const GridContainer = ({ items, path }) => {
+const GridContainer = ({ items, path, dataKey }) => {
   const [uri, setUri] = useState("");
 
   useEffect(() => {
@@ -44,33 +61,51 @@ const GridContainer = ({ items, path }) => {
   }, []);
 
   const getImage = async (path) => {
+    console.log(path);
+
     const uri = await getImageURI(path);
     setUri(uri);
   };
 
+  const rowHeaderText = interpret(dataKey);
+
   return (
-    <View>
-      <Text style={styles.rowHeaderText}>{key}</Text>
-      {uri ? (
-        <Image style={{ width: 100, height: 100 }} source={{ uri }}></Image>
-      ) : (
-        <ActivityIndicator></ActivityIndicator>
-      )}
+    <View style={styles.gridContainer}>
+      <Text style={styles.rowHeaderText}>{rowHeaderText}</Text>
+      {uri ? <Image style={styles.image} source={{ uri }}></Image> : null}
       <Grid items={items} />
     </View>
   );
 };
 
+const colors = {
+  rowHeader: "grey",
+  horizontalLine: "black",
+};
+
 export default Grids = ({ data, type }) => {
   const userId = getUserId();
   const date = getDate();
-  const keys = Object.keys(data);
+  const dataKeys = Object.keys(data);
+
+  console.log("Grids dataKeys", dataKeys);
 
   return (
     <View>
-      {keys.map((key, i) => {
-        const path = `userData/${userId}/${type}/${date}/${key}`;
-        return <GridContainer key={i} items={data[key]} path={path} />;
+      {dataKeys.map((dataKey, i) => {
+        // Path is for images
+        const path = `userData/${userId}/jurnal/${date}/${type}/${dataKey}`;
+        console.log("Grids path", path);
+        return (
+          <View key={i}>
+            <View style={styles.horizontalLine} />
+            <GridContainer
+              dataKey={dataKey}
+              items={data[dataKey]}
+              path={path}
+            />
+          </View>
+        );
       })}
     </View>
   );
@@ -79,6 +114,14 @@ export default Grids = ({ data, type }) => {
 const styles = StyleSheet.create({
   rowHeaderText: {
     fontWeight: "bold",
+    color: colors.rowHeader,
+    fontSize: 30,
+    marginBottom: 20,
+  },
+  image: {
+    height: 350,
+    width: 350,
+    borderRadius: 18,
   },
   row: {
     flexDirection: "row",
@@ -86,7 +129,16 @@ const styles = StyleSheet.create({
   },
   columnText: {},
   column: {
-    flex: 1,
     alignItems: "center",
+    margin: 20,
+  },
+  gridContainer: {
+    margin: 20,
+    alignItems: "center",
+  },
+  horizontalLine: {
+    borderBottomColor: colors.horizontalLine,
+    borderBottomWidth: 1,
+    marginTop: 20,
   },
 });

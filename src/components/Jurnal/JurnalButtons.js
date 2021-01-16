@@ -7,7 +7,7 @@ export const AktivitasButton = ({ onPress }) => (
     onPress={onPress}
     style={[styles.container, styles.aktivitasButton]}
   >
-    <Icon name="create" size={40} color="white" />
+    <Icon name="directions-run" size={40} color="white" />
   </TouchableOpacity>
 );
 
@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
   },
   aktivitasButton: {
     right: 120,
-    backgroundColor: "lightseagreen",
+    backgroundColor: "#42E2B8",
   },
   makanButton: {
-    backgroundColor: "orange",
+    backgroundColor: "#2D82B7",
   },
 });

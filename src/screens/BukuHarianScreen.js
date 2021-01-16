@@ -9,6 +9,11 @@ import EntryPreview from "../components/BukuHarian/EntryPreview";
 import EntryPreviews from "../components/BukuHarian/EntryPreviews";
 import ModalView from "../components/BukuHarian/ModalView";
 import NewEntryButton from "../components/BukuHarian/NewEntryButton";
+import ToggleCalendar from "../components/ToggleCalendar";
+
+const colors = {
+  background: "white",
+};
 
 export default class BukuHarianScreen extends React.Component {
   // TODO: add loading screen!!
@@ -16,6 +21,7 @@ export default class BukuHarianScreen extends React.Component {
     bukuHarianEntries: {},
     markedDates: {},
     modalVisible: false,
+    calendarVisible: true,
     month: {},
     uri: "",
     userId: "testUserId",
@@ -77,8 +83,20 @@ export default class BukuHarianScreen extends React.Component {
     }
   };
 
+  toggleCalendar = () => {
+    this.setState((prevState) => ({
+      calendarVisible: !prevState.calendarVisible,
+    }));
+  };
+
   render() {
-    const { bukuHarianEntries, markedDates, day, modalVisible } = this.state;
+    const {
+      bukuHarianEntries,
+      markedDates,
+      day,
+      modalVisible,
+      calendarVisible,
+    } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -90,16 +108,23 @@ export default class BukuHarianScreen extends React.Component {
           />
         </Modal>
 
-        <Calendar
-          onDayPress={(d) => {
-            this.setState({ day: d.dateString });
-          }}
-          // TODO: implement onMonthChange
-          onMonthChange={(month) => {
-            this.setState({ month });
-          }}
-          markedDates={markedDates}
-        ></Calendar>
+        <ToggleCalendar
+          toggleCalendar={this.toggleCalendar}
+          minimized={calendarVisible}
+        />
+
+        {calendarVisible && (
+          <Calendar
+            onDayPress={(d) => {
+              this.setState({ day: d.dateString });
+            }}
+            // TODO: implement onMonthChange
+            onMonthChange={(month) => {
+              this.setState({ month });
+            }}
+            markedDates={markedDates}
+          ></Calendar>
+        )}
 
         <EntryPreviews
           entries={bukuHarianEntries}
@@ -115,6 +140,7 @@ export default class BukuHarianScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
   EntryPreviewTanggal: {
     marginBottom: 10,

@@ -7,6 +7,7 @@ import {
   AktivitasButton,
   MakanButton,
 } from "../components/Jurnal/JurnalButtons";
+import ToggleCalendar from "../components/ToggleCalendar";
 
 import { getUserId } from "../helperfns/InitializeUser";
 import { getData } from "../helperfns/firebaseHelpers";
@@ -16,11 +17,16 @@ const getPath = () => {
   return `userData/${userId}/jurnal`;
 };
 
+const colors = {
+  background: "white",
+};
+
 export default class JurnalScreen extends React.Component {
   state = {
     day: "",
     data: {},
     markedDates: {},
+    calendarVisible: true,
   };
 
   async componentDidMount() {
@@ -44,20 +50,31 @@ export default class JurnalScreen extends React.Component {
     this.setState({ markedDates });
   };
 
+  toggleCalendar = () => {
+    this.setState((prevState) => ({
+      calendarVisible: !prevState.calendarVisible,
+    }));
+    console.log(this.state.calendarVisible);
+  };
+
   render() {
     const { navigation } = this.props;
-    const { day, data, markedDates } = this.state;
-
-    console.log("JurnalScreen data", data);
-
+    const { day, data, markedDates, calendarVisible } = this.state;
     return (
       <View style={styles.container}>
-        <Calendar
-          onDayPress={(d) => {
-            this.setState({ day: d.dateString });
-          }}
-          markedDates={markedDates}
-        ></Calendar>
+        <ToggleCalendar
+          toggleCalendar={this.toggleCalendar}
+          minimized={calendarVisible}
+        />
+        {calendarVisible && (
+          <Calendar
+            onDayPress={(d) => {
+              this.setState({ day: d.dateString });
+            }}
+            markedDates={markedDates}
+          ></Calendar>
+        )}
+
         <JurnalCards day={day} data={data} />
         <MakanButton onPress={() => navigation.push("Jurnal Makan")} />
         <AktivitasButton onPress={() => navigation.push("Jurnal Aktivitas")} />
@@ -69,5 +86,6 @@ export default class JurnalScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.background,
   },
 });
