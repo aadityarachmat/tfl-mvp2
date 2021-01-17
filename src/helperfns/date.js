@@ -30,10 +30,10 @@ export const toDateObject = (dateString) => {
 
 export const getLastDays = (dateObject, days) => {
   let result = [];
-  dateObject.setDate(dateObject.getDate() - days);
+  dateObject.setDate(dateObject.getDate() - 1);
   for (i = 0; i < days; i++) {
     result.push(toDateString(dateObject));
-    dateObject.setDate(dateObject.getDate() + 1);
+    dateObject.setDate(dateObject.getDate() - 1);
   }
   return result;
 };
