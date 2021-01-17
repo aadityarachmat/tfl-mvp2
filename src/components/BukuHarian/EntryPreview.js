@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignSelf: "center",
     marginTop: 20,
-    borderLeftWidth: 1,
+    borderLeftWidth: 4,
   },
   dateView: {
     flexDirection: "row",

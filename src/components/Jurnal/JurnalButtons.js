@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
   },
   aktivitasButton: {
     right: 120,
-    backgroundColor: "#42E2B8",
+    backgroundColor: "teal",
   },
   makanButton: {
-    backgroundColor: "#2D82B7",
+    backgroundColor: "purple",
   },
 });

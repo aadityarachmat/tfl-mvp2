@@ -4,6 +4,7 @@ import * as firebase from "firebase";
 import { Calendar } from "react-native-calendars";
 
 import { getUserId } from "../helperfns/InitializeUser";
+import getDate from "../helperfns/date";
 
 import EntryPreview from "../components/BukuHarian/EntryPreview";
 import EntryPreviews from "../components/BukuHarian/EntryPreviews";
@@ -21,7 +22,7 @@ export default class BukuHarianScreen extends React.Component {
     bukuHarianEntries: {},
     markedDates: {},
     modalVisible: false,
-    calendarVisible: true,
+    calendarVisible: false,
     month: {},
     uri: "",
     userId: "testUserId",
@@ -30,7 +31,13 @@ export default class BukuHarianScreen extends React.Component {
 
   componentDidMount() {
     this.initialize();
+    this.setToday();
   }
+
+  setToday = () => {
+    const today = getDate();
+    this.setState({ day: today });
+  };
 
   async initialize() {
     // TODO: save marked dates key properly!

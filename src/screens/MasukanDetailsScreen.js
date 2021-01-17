@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     textAlign: "center",
   },
-  image: { height: "100%", width: "100%", borderRadius: 10 },
+  image: { height: "100%", width: "100%", borderRadius: 20 },
   cardView: {
     padding: 20,
     backgroundColor: colors.cardBackground,

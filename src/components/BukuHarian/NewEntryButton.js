@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 30,
     bottom: 30,
-    backgroundColor: "deepskyblue",
+    backgroundColor: "purple",
     borderRadius: 100,
     padding: 20,
     shadowColor: "#000",

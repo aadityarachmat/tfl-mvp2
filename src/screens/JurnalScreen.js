@@ -9,6 +9,7 @@ import {
 } from "../components/Jurnal/JurnalButtons";
 import ToggleCalendar from "../components/ToggleCalendar";
 
+import getDate from "../helperfns/date";
 import { getUserId } from "../helperfns/InitializeUser";
 import { getData } from "../helperfns/firebaseHelpers";
 
@@ -26,13 +27,19 @@ export default class JurnalScreen extends React.Component {
     day: "",
     data: {},
     markedDates: {},
-    calendarVisible: true,
+    calendarVisible: false,
   };
 
   async componentDidMount() {
     await this.setDataToState();
+    this.setDayAsToday();
     this.markDatesWithEntries();
   }
+
+  setDayAsToday = () => {
+    const today = getDate();
+    this.setState({ day: today });
+  };
 
   setDataToState = async () => {
     const path = getPath();
