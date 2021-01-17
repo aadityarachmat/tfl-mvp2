@@ -47,37 +47,41 @@ const colors = {
   background: "white",
 };
 
+const emotionColors = {
+  grin: "lightgreen",
+  joy: "lightgreen",
+  blush: "lightgreen",
+  heart_eyes: "lightgreen",
+  sunglasses: "lightgreen",
+  sleepy: "gold",
+  neutral_face: "gold",
+  disappointed: "gold",
+  sob: "crimson",
+  rage: "crimson",
+};
+
 export default class EntryPreview extends React.Component {
   state = {
     text: "",
     uri: "",
     emotionSelected: "grin",
     metadata: "",
-    mounted: false,
+    previousDay: "",
   };
 
-  componentDidMount() {
-    this.setState({ mounted: true });
+  componentDidUpdate() {
+    this.downloadPhoto();
   }
 
-  async componentDidUpdate() {
-    this.displayPhoto();
-  }
-
-  componentWillUnmount() {
-    this.setState({ mounted: false });
-  }
-
-  displayPhoto = async () => {
+  downloadPhoto = async () => {
     const { day } = this.props;
-    const { mounted } = this.state;
+    const { uri } = this.state;
 
-    if (day) {
+    if (day && uri === "") {
       const userId = getUserId();
-
       const path = `userData/${userId}/bukuHarian/${day}`;
       const uri = await getImageURI(path);
-      if (uri && mounted) this.setState({ uri });
+      if (uri) this.setState({ uri });
     }
   };
 
@@ -115,9 +119,19 @@ export default class EntryPreview extends React.Component {
               <Text style={styles.dateText}>{day}</Text>
             </View>
 
-            <Text style={styles.EntryPreviewText}>
+            <Text style={styles.emotionView}>
+              <View
+                style={[
+                  styles.emotionColorCircle,
+                  {
+                    backgroundColor:
+                      emotionColors[entries[day].emotionSelected],
+                  },
+                ]}
+              />
               <Emoji name={entries[day].emotionSelected} />
             </Text>
+
             <Text style={styles.EntryPreviewText}>
               {shortenText(entries[day].text)}
             </Text>
@@ -151,6 +165,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: colors.header,
+  },
+  emotionView: {
+    flexDirection: "row",
+    marginBottom: 10,
+    fontSize: 20,
+    justifyContent: "center",
+  },
+  emotionColorCircle: {
+    height: 16,
+    width: 16,
+    borderRadius: 10,
   },
   EntryPreviewText: {
     marginBottom: 10,

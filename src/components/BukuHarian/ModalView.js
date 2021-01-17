@@ -18,15 +18,15 @@ import {
   deleteData,
   uploadImage,
   getImageURI,
+  deleteImage,
 } from "../../helperfns/firebaseHelpers";
 
 import OptionsView from "./OptionsView";
 import ModalHeader from "./ModalHeader";
 
-const getPath = () => {
+const getPath = (day) => {
   const userId = getUserId();
-  const date = getDate();
-  return `userData/${userId}/bukuHarian/${date}`;
+  return `userData/${userId}/bukuHarian/${day}`;
 };
 
 export default class ModalView extends React.Component {
@@ -44,13 +44,15 @@ export default class ModalView extends React.Component {
 
   // Buggy for some reasonnnnn
   displayLastPhoto = async () => {
-    const path = getPath();
+    const { day } = this.props;
+    const path = getPath(day);
     const uri = await getImageURI(path);
     if (uri) this.setState({ uri });
   };
 
   displayLastEntry = async () => {
-    const path = getPath();
+    const { day } = this.props;
+    const path = getPath(day);
     const lastEntry = await getData(path);
     if (lastEntry) {
       const { text, emotionSelected } = lastEntry;
@@ -60,15 +62,19 @@ export default class ModalView extends React.Component {
 
   submit = () => {
     const { text, emotionSelected, uri } = this.state;
-    const path = getPath();
+    const { day, toggleModal } = this.props;
+    const path = getPath(day);
     setData(path, { text, emotionSelected });
     if (uri) uploadImage(path, uri);
-    Alert.alert("Uploaded");
+    toggleModal();
   };
 
   delete = () => {
-    const path = getPath();
+    const { day, toggleModal } = this.props;
+    const path = getPath(day);
     deleteData(path);
+    deleteImage(path);
+    toggleModal();
   };
 
   handleTextChange = (text) => {
@@ -106,11 +112,10 @@ export default class ModalView extends React.Component {
 
   render() {
     const { text, emotionSelected, uri } = this.state;
-    const { toggleModal } = this.props;
-    const date = getDate();
+    const { toggleModal, day } = this.props;
     return (
       <View style={[styles.container, { marginTop: 30 }]}>
-        <ModalHeader currentDate={date} toggleModal={toggleModal} />
+        <ModalHeader currentDate={day} toggleModal={toggleModal} />
 
         {uri !== "" && <Image source={{ uri: uri }} style={styles.image} />}
 

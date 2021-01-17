@@ -17,16 +17,16 @@ const colors = {
 };
 
 const emotionColors = {
-  grin: "yellow",
-  joy: "yellow",
-  blush: "pink",
-  heart_eyes: "pink",
-  sunglasses: "green",
-  sleepy: "lightblue",
-  neutral_face: "grey",
-  disappointed: "black",
-  sob: "darkblue",
-  rage: "red",
+  grin: "lightgreen",
+  joy: "lightgreen",
+  blush: "lightgreen",
+  heart_eyes: "lightgreen",
+  sunglasses: "lightgreen",
+  sleepy: "gold",
+  neutral_face: "gold",
+  disappointed: "gold",
+  sob: "crimson",
+  rage: "crimson",
 };
 
 const getMarkedDates = (data, dateSelected) => {
@@ -147,6 +147,7 @@ export default class BukuHarianScreen extends React.Component {
           <ModalView
             initialize={this.initialize}
             toggleModal={this.toggleModal}
+            day={day}
           />
         </Modal>
 

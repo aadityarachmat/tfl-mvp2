@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Modal } from "react-native";
 import Emoji from "react-native-emoji";
 import * as firebase from "firebase";
 import { withTheme } from "react-native-elements";
@@ -8,6 +8,7 @@ import { withTheme } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import EditEntryButton from "../components/BukuHarian/EditEntryButton";
+import ModalView from "../components/BukuHarian/ModalView";
 
 const colors = {
   header: "black",
@@ -17,11 +18,24 @@ const colors = {
 };
 
 export default class MasukanDetailsScreen extends React.Component {
+  state = {
+    modalVisible: false,
+  };
+
+  toggleModal = () => {
+    this.setState((prevState) => ({ modalVisible: !prevState.modalVisible }));
+  };
+
   render() {
     const { route } = this.props;
+    const { modalVisible } = this.state;
     const { uri, entries, day } = route.params;
     return (
       <View style={styles.container}>
+        <Modal visible={modalVisible} animationType="slide">
+          <ModalView toggleModal={this.toggleModal} day={day} />
+        </Modal>
+
         <ScrollView style={styles.scrollView}>
           <View style={[styles.imageView, styles.shadow]}>
             {uri !== "" ? (
@@ -42,7 +56,7 @@ export default class MasukanDetailsScreen extends React.Component {
           </View>
           <View style={styles.preventsButtonFromObscuringContent} />
         </ScrollView>
-        <EditEntryButton />
+        <EditEntryButton onPress={this.toggleModal} />
       </View>
     );
   }

@@ -39,3 +39,13 @@ export const getImageURI = async (path) => {
       return null;
     });
 };
+
+export const deleteImage = async (path) => {
+  return firebase
+    .storage()
+    .ref(path)
+    .delete()
+    .catch((error) => {
+      console.log(error);
+    });
+};
