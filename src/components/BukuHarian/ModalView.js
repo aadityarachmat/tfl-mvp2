@@ -45,9 +45,7 @@ export default class ModalView extends React.Component {
   // Buggy for some reasonnnnn
   displayLastPhoto = async () => {
     const path = getPath();
-    console.log(path);
     const uri = await getImageURI(path);
-    console.log("modal view uri", uri);
     if (uri) this.setState({ uri });
   };
 

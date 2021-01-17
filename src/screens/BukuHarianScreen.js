@@ -16,6 +16,37 @@ const colors = {
   background: "white",
 };
 
+const emotionColors = {
+  grin: "yellow",
+  joy: "yellow",
+  blush: "pink",
+  heart_eyes: "pink",
+  sunglasses: "green",
+  sleepy: "lightblue",
+  neutral_face: "grey",
+  disappointed: "black",
+  sob: "darkblue",
+  rage: "red",
+};
+
+const getMarkedDates = (data, dateSelected) => {
+  const markedDates = {};
+  for (let [key, value] of Object.entries(data)) {
+    const emotionSelected = value["emotionSelected"];
+    const color = emotionColors[emotionSelected];
+
+    const selected = key === dateSelected;
+
+    markedDates[key] = {
+      startingDay: true,
+      endingDay: true,
+      color: color,
+      selected: selected,
+    };
+  }
+  return markedDates;
+};
+
 export default class BukuHarianScreen extends React.Component {
   // TODO: add loading screen!!
   state = {
@@ -29,10 +60,17 @@ export default class BukuHarianScreen extends React.Component {
     day: "",
   };
 
-  componentDidMount() {
-    this.initialize();
+  async componentDidMount() {
+    await this.initialize();
     this.setToday();
+    this.setMarkedDatesToState(this.state.day);
   }
+
+  setMarkedDatesToState = (dateSelected) => {
+    const { bukuHarianEntries } = this.state;
+    const markedDates = getMarkedDates(bukuHarianEntries, dateSelected);
+    this.setState({ markedDates });
+  };
 
   setToday = () => {
     const today = getDate();
@@ -45,7 +83,6 @@ export default class BukuHarianScreen extends React.Component {
     database = firebase.database();
     const userId = getUserId();
     const currentDate = getDate();
-    const markedDates = {};
     let EntryPreviewBaruText = "";
 
     // Get bukuHarianEntries
@@ -60,10 +97,9 @@ export default class BukuHarianScreen extends React.Component {
         }
       });
 
-    // Mark dates with entries
-    for (let [key, value] of Object.entries(bukuHarianEntries)) {
-      markedDates[key] = { marked: true };
-    }
+    this.setState({ bukuHarianEntries });
+
+    this.setMarkedDatesToState();
 
     // Set the value of EntryPreviewBaruText if the user saved an entry earlier today
     if (bukuHarianEntries[currentDate]) {
@@ -73,7 +109,6 @@ export default class BukuHarianScreen extends React.Component {
 
     this.setState({
       bukuHarianEntries,
-      markedDates,
       currentDate,
       userId,
       EntryPreviewBaruText,
@@ -124,12 +159,14 @@ export default class BukuHarianScreen extends React.Component {
           <Calendar
             onDayPress={(d) => {
               this.setState({ day: d.dateString });
+              this.setMarkedDatesToState(d.dateString);
             }}
             // TODO: implement onMonthChange
             onMonthChange={(month) => {
               this.setState({ month });
             }}
             markedDates={markedDates}
+            markingType={"period"}
           ></Calendar>
         )}
 
