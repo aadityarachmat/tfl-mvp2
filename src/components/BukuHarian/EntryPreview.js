@@ -12,6 +12,8 @@ import Emoji from "react-native-emoji";
 import * as firebase from "firebase";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
+import { getData } from "../../helperfns/firebaseHelpers";
+
 import Tags from "../Tags";
 
 const getUserId = () => {
@@ -42,6 +44,24 @@ const shortenText = (text) => {
   return text;
 };
 
+const getJurnalData = async (date) => {
+  const userId = getUserId();
+  const path = `userData/${userId}/jurnal/${date}`;
+  return await getData(path);
+};
+
+const getActivities = (jurnalData) => {
+  const aktivitas = jurnalData["aktivitas"];
+  if (aktivitas) {
+    const beraktivitas = aktivitas["beraktivitas"];
+    const values = [];
+    for (let key in beraktivitas) {
+      values.push(beraktivitas[key]["value"]);
+    }
+    return values;
+  }
+};
+
 const colors = {
   header: "black",
   text: "grey",
@@ -64,14 +84,19 @@ const emotionColors = {
 export default class EntryPreview extends React.Component {
   state = {
     uri: "",
+    jurnalData: {},
   };
 
   componentDidMount() {
     this.downloadPhoto();
+    this.setJurnalDataToState();
   }
 
   componentDidUpdate() {
+    const { jurnalData } = this.state;
+
     this.downloadPhoto();
+    if (!jurnalData) this.setJurnalDataToState();
   }
 
   downloadPhoto = async () => {
@@ -100,9 +125,16 @@ export default class EntryPreview extends React.Component {
     });
   };
 
+  setJurnalDataToState = async () => {
+    const { day } = this.props;
+    const jurnalData = await getJurnalData(day);
+    this.setState({ jurnalData });
+  };
+
   render() {
     const { entries, day } = this.props;
-    const { uri } = this.state;
+    const { uri, jurnalData } = this.state;
+    const activities = getActivities(jurnalData);
     return (
       <TouchableOpacity onPress={this.onPress} style={styles.container}>
         <View style={styles.imageView}>
@@ -137,7 +169,9 @@ export default class EntryPreview extends React.Component {
           <Text style={styles.EntryPreviewText}>
             {shortenText(entries[day].text)}
           </Text>
-          <Tags />
+          {activities && (
+            <Tags category="Activities" items={activities} type="Selected" />
+          )}
         </View>
       </TouchableOpacity>
     );

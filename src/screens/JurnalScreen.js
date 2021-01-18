@@ -44,7 +44,6 @@ export default class JurnalScreen extends React.Component {
   setDataToState = async () => {
     const path = getPath();
     const data = await getData(path);
-
     this.setState({ data });
   };
 
@@ -82,7 +81,7 @@ export default class JurnalScreen extends React.Component {
           ></Calendar>
         )}
 
-        <JurnalCards day={day} data={data} />
+        {data && <JurnalCards day={day} data={data} />}
         <MakanButton onPress={() => navigation.push("Jurnal Makan")} />
         <AktivitasButton onPress={() => navigation.push("Jurnal Aktivitas")} />
       </View>
