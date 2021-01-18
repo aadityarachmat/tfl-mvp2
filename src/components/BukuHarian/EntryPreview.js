@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import {
   View,
   Text,
@@ -12,6 +11,8 @@ import {
 import Emoji from "react-native-emoji";
 import * as firebase from "firebase";
 import Icon from "react-native-vector-icons/MaterialIcons";
+
+import Tags from "../Tags";
 
 const getUserId = () => {
   const user = firebase.auth().currentUser;
@@ -62,10 +63,7 @@ const emotionColors = {
 
 export default class EntryPreview extends React.Component {
   state = {
-    text: "",
     uri: "",
-    emotionSelected: "grin",
-    metadata: "",
   };
 
   componentDidMount() {
@@ -74,11 +72,6 @@ export default class EntryPreview extends React.Component {
 
   componentDidUpdate() {
     this.downloadPhoto();
-  }
-
-  componentWillUnmount() {
-    console.log(this.props.day, "unmounted");
-    this.setState({ uri: "" });
   }
 
   downloadPhoto = async () => {
@@ -92,7 +85,7 @@ export default class EntryPreview extends React.Component {
       if (uri) {
         this.setState({ uri });
       } else {
-        this.setState({ uri: "" });
+        this.setState({ uri: "No Image" });
       }
     }
   };
@@ -144,6 +137,7 @@ export default class EntryPreview extends React.Component {
           <Text style={styles.EntryPreviewText}>
             {shortenText(entries[day].text)}
           </Text>
+          <Tags />
         </View>
       </TouchableOpacity>
     );
