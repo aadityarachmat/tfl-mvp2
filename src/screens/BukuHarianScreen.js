@@ -4,6 +4,7 @@ import * as firebase from "firebase";
 import { Calendar } from "react-native-calendars";
 
 import { getUserId } from "../helperfns/InitializeUser";
+import { getImageURI } from "../helperfns/firebaseHelpers";
 import getDate from "../helperfns/date";
 
 import EntryPreview from "../components/BukuHarian/EntryPreview";
@@ -54,15 +55,12 @@ export default class BukuHarianScreen extends React.Component {
     markedDates: {},
     modalVisible: false,
     calendarVisible: false,
-    month: {},
-    uri: "",
-    userId: "testUserId",
     day: "",
   };
 
   async componentDidMount() {
-    await this.initialize();
-    this.setToday();
+    await this.setBukuHarianEntriesToState();
+    this.setTodayToState();
     this.setMarkedDatesToState(this.state.day);
   }
 
@@ -72,20 +70,15 @@ export default class BukuHarianScreen extends React.Component {
     this.setState({ markedDates });
   };
 
-  setToday = () => {
+  setTodayToState = () => {
     const today = getDate();
     this.setState({ day: today });
   };
 
-  async initialize() {
-    // TODO: save marked dates key properly!
-    // TODO: initialize emotionSelected
+  async setBukuHarianEntriesToState() {
     database = firebase.database();
     const userId = getUserId();
-    const currentDate = getDate();
-    let EntryPreviewBaruText = "";
 
-    // Get bukuHarianEntries
     bukuHarianEntries = await database
       .ref(`/userData/${userId}/bukuHarian`)
       .once("value")
@@ -98,21 +91,6 @@ export default class BukuHarianScreen extends React.Component {
       });
 
     this.setState({ bukuHarianEntries });
-
-    this.setMarkedDatesToState();
-
-    // Set the value of EntryPreviewBaruText if the user saved an entry earlier today
-    if (bukuHarianEntries[currentDate]) {
-      EntryPreviewBaruText =
-        bukuHarianEntries[currentDate].EntryPreviewBaruText;
-    }
-
-    this.setState({
-      bukuHarianEntries,
-      currentDate,
-      userId,
-      EntryPreviewBaruText,
-    });
   }
 
   // todo: can edit old entries
@@ -144,11 +122,7 @@ export default class BukuHarianScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Modal visible={modalVisible} animationType="slide">
-          <ModalView
-            initialize={this.initialize}
-            toggleModal={this.toggleModal}
-            day={day}
-          />
+          <ModalView toggleModal={this.toggleModal} day={day} />
         </Modal>
 
         <ToggleCalendar

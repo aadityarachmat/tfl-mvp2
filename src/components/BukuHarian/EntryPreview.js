@@ -66,11 +66,19 @@ export default class EntryPreview extends React.Component {
     uri: "",
     emotionSelected: "grin",
     metadata: "",
-    previousDay: "",
   };
+
+  componentDidMount() {
+    this.downloadPhoto();
+  }
 
   componentDidUpdate() {
     this.downloadPhoto();
+  }
+
+  componentWillUnmount() {
+    console.log(this.props.day, "unmounted");
+    this.setState({ uri: "" });
   }
 
   downloadPhoto = async () => {
@@ -81,7 +89,11 @@ export default class EntryPreview extends React.Component {
       const userId = getUserId();
       const path = `userData/${userId}/bukuHarian/${day}`;
       const uri = await getImageURI(path);
-      if (uri) this.setState({ uri });
+      if (uri) {
+        this.setState({ uri });
+      } else {
+        this.setState({ uri: "" });
+      }
     }
   };
 
@@ -98,55 +110,49 @@ export default class EntryPreview extends React.Component {
   render() {
     const { entries, day } = this.props;
     const { uri } = this.state;
+    return (
+      <TouchableOpacity onPress={this.onPress} style={styles.container}>
+        <View style={styles.imageView}>
+          {uri !== "" ? (
+            <Image source={{ uri: uri }} style={styles.image} />
+          ) : (
+            <ActivityIndicator
+              size="large"
+              style={styles.imageActivityIndicator}
+            />
+          )}
+        </View>
 
-    if (entries[day]) {
-      return (
-        <TouchableOpacity onPress={this.onPress} style={styles.container}>
-          <View style={styles.imageView}>
-            {uri !== "" ? (
-              <Image source={{ uri: uri }} style={styles.image} />
-            ) : (
-              <ActivityIndicator
-                size="large"
-                style={styles.imageActivityIndicator}
-              />
-            )}
+        <View style={styles.textView}>
+          <View style={styles.dateView}>
+            <Icon name="today" size={25} color={colors.header} />
+            <Text style={styles.dateText}>{day}</Text>
           </View>
 
-          <View style={styles.textView}>
-            <View style={styles.dateView}>
-              <Icon name="today" size={25} color={colors.header} />
-              <Text style={styles.dateText}>{day}</Text>
-            </View>
+          <Text style={styles.emotionView}>
+            <View
+              style={[
+                styles.emotionColorCircle,
+                {
+                  backgroundColor: emotionColors[entries[day].emotionSelected],
+                },
+              ]}
+            />
+            <Emoji name={entries[day].emotionSelected} />
+          </Text>
 
-            <Text style={styles.emotionView}>
-              <View
-                style={[
-                  styles.emotionColorCircle,
-                  {
-                    backgroundColor:
-                      emotionColors[entries[day].emotionSelected],
-                  },
-                ]}
-              />
-              <Emoji name={entries[day].emotionSelected} />
-            </Text>
-
-            <Text style={styles.EntryPreviewText}>
-              {shortenText(entries[day].text)}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    } else {
-      return null;
-    }
+          <Text style={styles.EntryPreviewText}>
+            {shortenText(entries[day].text)}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
+    height: 300,
     width: "94%",
     backgroundColor: colors.background,
     alignSelf: "center",

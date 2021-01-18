@@ -15,15 +15,16 @@ export default class EntryPreviews extends React.Component {
     const lastWeek = getLastDays(dateObject, 7);
     return (
       <ScrollView style={styles.container}>
-        {lastWeek.map((day, i) => {
-          return (
-            <EntryPreview
-              entries={entries}
-              day={day}
-              navigation={navigation}
-              key={i}
-            />
-          );
+        {lastWeek.map((day) => {
+          if (entries[day])
+            return (
+              <EntryPreview
+                entries={entries}
+                day={day}
+                navigation={navigation}
+                key={day}
+              />
+            );
         })}
         <View style={styles.viewToPreventButtonsFromObscuringContent}></View>
       </ScrollView>
