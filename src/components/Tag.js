@@ -18,18 +18,34 @@ export const SelectedTag = ({ text }) => (
 );
 
 export class TouchableTag extends React.Component {
-  state = {
-    selected: false,
+  onPress = () => {
+    const { onPress } = this.props;
+    if (onPress) onPress();
   };
 
-  toggleSelected = () => {
+  render() {
+    const { text, selected } = this.props;
+    return (
+      <TouchableOpacity onPress={() => this.onPress()}>
+        {selected ? <SelectedTag text={text} /> : <UnselectedTag text={text} />}
+      </TouchableOpacity>
+    );
+  }
+}
+
+export class ToggleableTag extends React.Component {
+  state = {
+    selected: this.props.selected,
+  };
+
+  toggle = () => {
     this.setState((prevState) => ({ selected: !prevState.selected }));
   };
 
   onPress = () => {
     const { onPress } = this.props;
     if (onPress) onPress();
-    this.toggleSelected();
+    this.toggle();
   };
 
   render() {
@@ -37,7 +53,7 @@ export class TouchableTag extends React.Component {
     const { selected } = this.state;
     return (
       <TouchableOpacity onPress={() => this.onPress()}>
-        {selected ? <UnselectedTag text={text} /> : <SelectedTag text={text} />}
+        {selected ? <SelectedTag text={text} /> : <UnselectedTag text={text} />}
       </TouchableOpacity>
     );
   }
@@ -48,7 +64,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     padding: 10,
-    marginRight: 10,
+    marginRight: 5,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",

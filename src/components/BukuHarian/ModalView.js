@@ -132,7 +132,7 @@ export default class ModalView extends React.Component {
             multiline={true}
             autoFocus={true}
             value={text}
-            placeholder="Ketik di sini..."
+            placeholder="Perasaanku hari ini..."
             onChangeText={(text) => this.handleTextChange(text)}
             style={[styles.input, { height: this.state.height }]}
           />

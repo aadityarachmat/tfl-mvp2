@@ -62,6 +62,18 @@ const getActivities = (jurnalData) => {
   }
 };
 
+const getMakan = (jurnalData) => {
+  const makan = jurnalData["makan"];
+  if (makan) {
+    const sarapanku = makan["sarapanku"];
+    const values = [];
+    for (let key in sarapanku) {
+      values.push(sarapanku[key]["value"]);
+    }
+    return values;
+  }
+};
+
 const colors = {
   header: "black",
   text: "grey",
@@ -135,6 +147,7 @@ export default class EntryPreview extends React.Component {
     const { entries, day } = this.props;
     const { uri, jurnalData } = this.state;
     const activities = getActivities(jurnalData);
+    const sarapanku = getMakan(jurnalData);
     return (
       <TouchableOpacity onPress={this.onPress} style={styles.container}>
         <View style={styles.imageView}>
@@ -169,8 +182,26 @@ export default class EntryPreview extends React.Component {
           <Text style={styles.EntryPreviewText}>
             {shortenText(entries[day].text)}
           </Text>
+        </View>
+
+        <View style={{ flexGrow: 1 }}></View>
+
+        <View style={styles.jurnalView}>
           {activities && (
-            <Tags category="Activities" items={activities} type="Selected" />
+            <Tags
+              category="Aktivitas"
+              items={activities}
+              type="Selected"
+              selected={true}
+            />
+          )}
+          {sarapanku && (
+            <Tags
+              category="Makan"
+              items={sarapanku}
+              type="Selected"
+              selected={true}
+            />
           )}
         </View>
       </TouchableOpacity>
@@ -180,7 +211,7 @@ export default class EntryPreview extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
+    height: 260,
     width: "94%",
     backgroundColor: colors.background,
     alignSelf: "center",
@@ -192,7 +223,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   textView: {
-    margin: 20,
+    marginLeft: 20,
+    marginTop: 10,
     width: "50%",
   },
   dateText: {
@@ -233,5 +265,9 @@ const styles = StyleSheet.create({
     opacity: 1,
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+  },
+  jurnalView: {
+    marginLeft: 20,
+    marginBottom: 10,
   },
 });

@@ -1,23 +1,63 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-import { UnselectedTag, SelectedTag, TouchableTag } from "./Tag";
+import { UnselectedTag, SelectedTag, TouchableTag, ToggleableTag } from "./Tag";
 
-const mapTags = (items, type) =>
-  items.map((item, i) => {
-    if (i < 3) {
-      if (type === "Unselected")
-        return <UnselectedTag text={item} key={item} />;
-      if (type === "Selected") return <SelectedTag text={item} key={item} />;
-      if (type === "Touchable") return <TouchableTag text={item} key={item} />;
-    }
+const truncateText = (index, text) => {
+  if (text.length > index) {
+    return text.substring(0, index) + "...";
+  }
+  return text;
+};
+
+const getTruncatedCharacterAndWord = (items) => {
+  let character = 14;
+  let word = 0;
+  while (items[word] && character > items[word].length) {
+    character = character - items[word].length;
+    word++;
+  }
+  return { character, word };
+};
+
+const truncateItems = (items) => {
+  let truncatedItems = items;
+  let index = items.length - 1;
+
+  const { character, word } = getTruncatedCharacterAndWord(items);
+  while (index > word) {
+    truncatedItems.pop();
+    index--;
+  }
+
+  if (truncatedItems[word])
+    truncatedItems[word] = truncateText(character, truncatedItems[word]);
+
+  return truncatedItems;
+};
+
+const mapTags = (items, type, selected) => {
+  const truncatedItems = truncateItems(items);
+  return truncatedItems.map((item) => {
+    if (type === "Unselected") return <UnselectedTag text={item} key={item} />;
+    if (type === "Selected") return <SelectedTag text={item} key={item} />;
+    if (type === "Touchable")
+      return <TouchableTag text={item} key={item} selected={selected} />;
+    if (type === "Toggleable")
+      return <ToggleableTag text={item} key={item} selected={selected} />;
   });
+};
 
-export default Tags = ({ category, items, type }) => {
+const colors = {
+  tag: "#64dfdf",
+};
+
+export default Tags = ({ items, type, selected, max }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.category}>{category}</Text>
-      <View style={styles.tagsContainer}>{mapTags(items, type)}</View>
+      <View style={styles.tagsContainer}>
+        {mapTags(items, type, selected, max)}
+      </View>
     </View>
   );
 };
@@ -27,7 +67,6 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    flex: 1,
   },
   category: {
     fontSize: 16,
