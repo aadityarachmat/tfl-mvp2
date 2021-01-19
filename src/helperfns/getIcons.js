@@ -209,18 +209,13 @@ export function getFoodIcon(name) {
         />
       );
     default:
-      return (
-        <Image
-          style={styles.image}
-          source={require("../assets/aktivitas/cookie.png")}
-        />
-      );
+      return null;
   }
 }
 
 const styles = StyleSheet.create({
   image: {
-    height: 75,
-    width: 75,
+    height: 50,
+    width: 50,
   },
 });

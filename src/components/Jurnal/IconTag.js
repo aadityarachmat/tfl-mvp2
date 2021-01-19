@@ -1,39 +1,27 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
+import getIcon from "../../helperfns/getIcons";
+
 const colors = {
   tag: "#64dfdf",
 };
 
-export const UnselectedTag = ({ text }) => (
-  <View style={[styles.container]}>
+export const UnselectedIconTag = ({ icon, text }) => (
+  <View style={styles.container}>
+    {getIcon(icon)}
     <Text style={styles.unselectedText}>{text}</Text>
   </View>
 );
 
-export const SelectedTag = ({ text }) => (
+export const SelectedIconTag = ({ icon, text }) => (
   <View style={[styles.container, styles.selectedContainer]}>
+    {getIcon(icon)}
     <Text style={styles.selectedText}>{text}</Text>
   </View>
 );
 
-export class TouchableTag extends React.Component {
-  onPress = () => {
-    const { onPress } = this.props;
-    if (onPress) onPress();
-  };
-
-  render() {
-    const { text, selected } = this.props;
-    return (
-      <TouchableOpacity onPress={() => this.onPress()}>
-        {selected ? <SelectedTag text={text} /> : <UnselectedTag text={text} />}
-      </TouchableOpacity>
-    );
-  }
-}
-
-export class ToggleableTag extends React.Component {
+export class ToggleableIconTag extends React.Component {
   state = {
     selected: this.props.selected,
   };
@@ -49,11 +37,15 @@ export class ToggleableTag extends React.Component {
   };
 
   render() {
-    const { text } = this.props;
+    const { text, icon } = this.props;
     const { selected } = this.state;
     return (
       <TouchableOpacity onPress={() => this.onPress()}>
-        {selected ? <SelectedTag text={text} /> : <UnselectedTag text={text} />}
+        {selected ? (
+          <SelectedIconTag text={text} icon={icon} />
+        ) : (
+          <UnselectedIconTag text={text} icon={icon} />
+        )}
       </TouchableOpacity>
     );
   }
@@ -61,10 +53,9 @@ export class ToggleableTag extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 40,
-    borderRadius: 20,
-    padding: 10,
-    marginRight: 5,
+    borderRadius: 200,
+    padding: 20,
+    marginRight: 10,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",

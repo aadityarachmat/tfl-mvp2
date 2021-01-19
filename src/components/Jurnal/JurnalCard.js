@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { getJurnalData, toObjectOfArrays } from "../../helperfns/jurnalHelpers";
 import { getUserId } from "../../helperfns/InitializeUser";
@@ -42,7 +43,11 @@ export default class JurnalCard extends React.Component {
 
     return (
       <View style={styles.card}>
-        <Text style={styles.title}>{date}</Text>
+        <View style={styles.titleView}>
+          <Icon name="today" size={48} color={colors.header} />
+          <Text style={styles.title}>{date}</Text>
+        </View>
+
         <Grids data={aktivitas} type="aktivitas" />
         <Grids data={makan} type="makan" />
       </View>
@@ -53,14 +58,19 @@ export default class JurnalCard extends React.Component {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    borderWidth: 0.5,
     backgroundColor: colors.background,
     marginHorizontal: 10,
     marginVertical: 10,
     padding: 20,
   },
+  titleView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
   title: {
-    fontSize: 65,
+    fontSize: 48,
     fontWeight: "bold",
     color: colors.title,
     textAlign: "center",

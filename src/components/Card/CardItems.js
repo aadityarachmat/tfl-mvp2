@@ -3,28 +3,12 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 
 import getIcon from "../../helperfns/getIcons";
 
-// TODO: delete(iLength); move to helperfns
-const transform = (items, iLength, jLength) => {
-  let index = 0;
-  const itemsKeys = Object.keys(items);
-  const itemsValues = Object.values(items);
-  const arr = [];
-  for (i = 0; i < iLength; i++) {
-    if (typeof itemsValues[index] === "undefined") break;
-    arr.push([]);
-    for (j = 0; j < jLength; j++) {
-      if (typeof itemsValues[index] === "undefined") break;
-      arr[i].push({ ...itemsValues[index], key: itemsKeys[index] });
-      index++;
-    }
-  }
-  return arr;
-};
+import { ToggleableIconTag } from "../Jurnal/IconTag";
 
 export default class CardItems extends React.Component {
   renderCol = (item, j) => {
     return (
-      <View key={j} style={[styles.column, item.selected && styles.selected]}>
+      <View style={[styles.column, item.selected && styles.selected]}>
         <TouchableOpacity onPress={() => this.props.toggleSelected(item.key)}>
           {getIcon(item.value)}
           <Text style={styles.text}>{item.value}</Text>
@@ -33,17 +17,32 @@ export default class CardItems extends React.Component {
     );
   };
 
-  renderRow = (row, i) => (
-    <View key={i} style={styles.row}>
-      {row.map((item, j) => this.renderCol(item, j))}
-    </View>
-  );
+  // renderRow = (row, i) => (
+  //   <View key={i} style={styles.row}>
+  //     {row.map((item, j) => this.renderCol(item, j))}
+  //   </View>
+  // );
 
-  renderGrid = (arr) => arr.map((row, i) => this.renderRow(row, i));
+  // renderGrid = (arr) => arr.map((row, i) => this.renderRow(row, i));
 
   render() {
-    const arr = transform(this.props.items, 200, 3);
-    return <View style={styles.cardContent}>{this.renderGrid(arr)}</View>;
+    const { items } = this.props;
+    const itemsKeys = Object.keys(items);
+    const itemsValues = Object.values(items);
+
+    return (
+      <View style={styles.cardContent}>
+        {itemsKeys.map((key) => (
+          <View key={key}>
+            <ToggleableIconTag
+              key={key}
+              text={items[key]["value"]}
+              icon={items[key]["value"]}
+            />
+          </View>
+        ))}
+      </View>
+    );
   }
 }
 
@@ -51,6 +50,8 @@ const styles = StyleSheet.create({
   cardContent: {
     marginHorizontal: 18,
     marginVertical: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   row: {
     height: 150,

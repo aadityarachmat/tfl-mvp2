@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { toGridArr } from "../../helperfns/jurnalHelpers";
 import getIcon from "../../helperfns/getIcons";
@@ -7,14 +8,21 @@ import { getImageURI } from "../../helperfns/firebaseHelpers";
 import { getUserId } from "../../helperfns/InitializeUser";
 import getDate from "../../helperfns/date";
 
+import { SelectedIconTag } from "./IconTag";
+
+const colors = {
+  rowHeader: "orange",
+  horizontalLine: "orange",
+};
+
 const interpret = (text) => {
   switch (text) {
     case "beraktivitas":
-      return "Hari ini aku beraktivitas...";
+      return "Aktivitasku...";
     case "bersama":
-      return "Hari ini aku bersama...";
+      return "Kawanku...";
     case "berada":
-      return "Hari ini aku berada di...";
+      return "Tempat-tempatku...";
     case "sarapanku":
       return "Sarapanku...";
     case "makanSiangku":
@@ -24,35 +32,17 @@ const interpret = (text) => {
   }
 };
 
-const Column = ({ item }) => (
-  <View style={styles.column}>
-    {getIcon(item)}
-    <Text>{item}</Text>
-  </View>
-);
-
-const Row = ({ itemsRow }) => {
-  return (
-    <View style={styles.row}>
-      {itemsRow.map((item, i) => (
-        <Column item={item} key={i} />
-      ))}
-    </View>
-  );
-};
-
 const Grid = ({ items }) => {
-  const gridArr = toGridArr(items, 1, 3);
   return (
-    <View>
-      {gridArr.map((row, i) => (
-        <Row itemsRow={row} key={i} />
+    <View style={styles.gridContainer}>
+      {items.map((item, i) => (
+        <SelectedIconTag icon={item} text={item} key={item} />
       ))}
     </View>
   );
 };
 
-const GridContainer = ({ items, path, dataKey }) => {
+const GridAndImageView = ({ items, path, dataKey }) => {
   const [uri, setUri] = useState("");
 
   useEffect(() => {
@@ -70,17 +60,13 @@ const GridContainer = ({ items, path, dataKey }) => {
   const rowHeaderText = interpret(dataKey);
 
   return (
-    <View style={styles.gridContainer}>
+    <View style={styles.gridAndImageView}>
       <Text style={styles.rowHeaderText}>{rowHeaderText}</Text>
+      <View style={styles.horizontalLine} />
       {uri ? <Image style={styles.image} source={{ uri }}></Image> : null}
       <Grid items={items} />
     </View>
   );
-};
-
-const colors = {
-  rowHeader: "grey",
-  horizontalLine: "black",
 };
 
 export default Grids = ({ data, type }) => {
@@ -98,8 +84,7 @@ export default Grids = ({ data, type }) => {
         console.log("Grids path", path);
         return (
           <View key={i}>
-            <View style={styles.horizontalLine} />
-            <GridContainer
+            <GridAndImageView
               dataKey={dataKey}
               items={data[dataKey]}
               path={path}
@@ -115,30 +100,25 @@ const styles = StyleSheet.create({
   rowHeaderText: {
     fontWeight: "bold",
     color: colors.rowHeader,
-    fontSize: 30,
-    marginBottom: 20,
+    fontSize: 20,
   },
   image: {
     height: 350,
     width: 350,
     borderRadius: 18,
   },
-  row: {
-    flexDirection: "row",
-    margin: 20,
-  },
-  columnText: {},
-  column: {
-    alignItems: "center",
-    margin: 20,
-  },
   gridContainer: {
-    margin: 20,
-    alignItems: "center",
+    marginTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  gridAndImageView: {
+    marginBottom: 10,
   },
   horizontalLine: {
     borderBottomColor: colors.horizontalLine,
     borderBottomWidth: 1,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
