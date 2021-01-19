@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
   dateView: {
     flexDirection: "row",
     marginBottom: 10,
+    backgroundColor: "white",
   },
   textView: {
     marginLeft: 20,
