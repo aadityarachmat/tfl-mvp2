@@ -6,25 +6,6 @@ import getIcon from "../../helperfns/getIcons";
 import { ToggleableIconTag } from "../Jurnal/IconTag";
 
 export default class CardItems extends React.Component {
-  renderCol = (item, j) => {
-    return (
-      <View style={[styles.column, item.selected && styles.selected]}>
-        <TouchableOpacity onPress={() => this.props.toggleSelected(item.key)}>
-          {getIcon(item.value)}
-          <Text style={styles.text}>{item.value}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  // renderRow = (row, i) => (
-  //   <View key={i} style={styles.row}>
-  //     {row.map((item, j) => this.renderCol(item, j))}
-  //   </View>
-  // );
-
-  // renderGrid = (arr) => arr.map((row, i) => this.renderRow(row, i));
-
   render() {
     const { items } = this.props;
     const itemsKeys = Object.keys(items);
@@ -38,6 +19,7 @@ export default class CardItems extends React.Component {
               key={key}
               text={items[key]["value"]}
               icon={items[key]["value"]}
+              onPress={() => this.props.toggleSelected(key)}
             />
           </View>
         ))}

@@ -55,6 +55,7 @@ export default class BukuHarianScreen extends React.Component {
     markedDates: {},
     modalVisible: false,
     calendarVisible: false,
+    today: "",
     day: "",
   };
 
@@ -72,7 +73,7 @@ export default class BukuHarianScreen extends React.Component {
 
   setTodayToState = () => {
     const today = getDate();
-    this.setState({ day: today });
+    this.setState({ today: today, day: today });
   };
 
   async setBukuHarianEntriesToState() {
@@ -114,6 +115,7 @@ export default class BukuHarianScreen extends React.Component {
       bukuHarianEntries,
       markedDates,
       day,
+      today,
       modalVisible,
       calendarVisible,
     } = this.state;
@@ -122,7 +124,7 @@ export default class BukuHarianScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Modal visible={modalVisible} animationType="slide">
-          <ModalView toggleModal={this.toggleModal} day={day} />
+          <ModalView toggleModal={this.toggleModal} day={today} />
         </Modal>
 
         <ToggleCalendar

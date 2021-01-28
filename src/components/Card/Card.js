@@ -102,6 +102,7 @@ class Card extends React.Component {
     const items = { ...this.state.items };
     const previouslySelected = items[item].selected;
     items[item] = { ...items[item], selected: !previouslySelected };
+    console.log(items);
     this.setState({ items });
   };
 

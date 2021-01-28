@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     height: 400,
     width: "100%",
     marginBottom: 20,
-    borderRadius: 10,
   },
   preventsButtonFromObscuringContent: {
     height: 150,

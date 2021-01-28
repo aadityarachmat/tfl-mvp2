@@ -147,7 +147,6 @@ export default class EntryPreview extends React.Component {
     const { entries, day } = this.props;
     const { uri, jurnalData } = this.state;
     const activities = getActivities(jurnalData);
-    const sarapanku = getMakan(jurnalData);
     return (
       <View style={styles.container}>
         <View style={styles.imageView}>
@@ -258,6 +257,7 @@ const styles = StyleSheet.create({
     width: "100%",
     resizeMode: "cover",
     opacity: 1,
+    borderRadius: 20,
   },
   jurnalView: {},
 });
