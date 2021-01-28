@@ -62,7 +62,7 @@ export class ToggleableTag extends React.Component {
 const styles = StyleSheet.create({
   container: {
     height: 40,
-    borderRadius: 20,
+    borderRadius: 100,
     padding: 10,
     marginRight: 5,
     marginBottom: 10,

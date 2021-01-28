@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 
 import { UnselectedTag, SelectedTag, TouchableTag, ToggleableTag } from "./Tag";
 
@@ -37,8 +37,7 @@ const truncateItems = (items) => {
 };
 
 const mapTags = (items, type, selected) => {
-  const truncatedItems = truncateItems(items);
-  return truncatedItems.map((item) => {
+  return items.map((item) => {
     if (type === "Unselected") return <UnselectedTag text={item} key={item} />;
     if (type === "Selected") return <SelectedTag text={item} key={item} />;
     if (type === "Touchable")
@@ -52,13 +51,11 @@ const colors = {
   tag: "#64dfdf",
 };
 
-export default Tags = ({ items, type, selected, max }) => {
+export default Tags = ({ items, type, selected, width }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.tagsContainer}>
-        {mapTags(items, type, selected, max)}
-      </View>
-    </View>
+    <ScrollView style={[styles.container, { width: width }]} horizontal={true}>
+      <View style={styles.tagsContainer}>{mapTags(items, type, selected)}</View>
+    </ScrollView>
   );
 };
 

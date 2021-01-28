@@ -38,8 +38,8 @@ const getImageURI = async (path) => {
 
 const shortenText = (text) => {
   const length = text.length;
-  if (length > 40) {
-    return text.substring(0, 39) + "...";
+  if (length > 20) {
+    return text.substring(0, 18) + "...";
   }
   return text;
 };
@@ -149,7 +149,7 @@ export default class EntryPreview extends React.Component {
     const activities = getActivities(jurnalData);
     const sarapanku = getMakan(jurnalData);
     return (
-      <TouchableOpacity onPress={this.onPress} style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.imageView}>
           {uri !== "" ? (
             <Image source={{ uri: uri }} style={styles.image} />
@@ -161,13 +161,13 @@ export default class EntryPreview extends React.Component {
           )}
         </View>
 
-        <View style={styles.textView}>
+        <TouchableOpacity style={styles.textView} onPress={this.onPress}>
           <View style={styles.dateView}>
             <Icon name="today" size={25} color={colors.header} />
             <Text style={styles.dateText}>{day}</Text>
           </View>
 
-          <Text style={styles.emotionView}>
+          <Text style={styles.EntryPreviewText}>
             <View
               style={[
                 styles.emotionColorCircle,
@@ -176,13 +176,13 @@ export default class EntryPreview extends React.Component {
                 },
               ]}
             />
-            <Emoji name={entries[day].emotionSelected} />
-          </Text>
-
-          <Text style={styles.EntryPreviewText}>
+            <Text style={styles.emotionText}>
+              <Emoji name={entries[day].emotionSelected} />
+            </Text>
+            <View style={styles.space}></View>
             {shortenText(entries[day].text)}
           </Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={{ flexGrow: 1 }}></View>
 
@@ -193,31 +193,24 @@ export default class EntryPreview extends React.Component {
               items={activities}
               type="Selected"
               selected={true}
-            />
-          )}
-          {sarapanku && (
-            <Tags
-              category="Makan"
-              items={sarapanku}
-              type="Selected"
-              selected={true}
+              width={"58%"}
             />
           )}
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 260,
-    width: "94%",
+    height: 150,
+    width: "100%",
     backgroundColor: colors.background,
     alignSelf: "center",
-    marginTop: 20,
-    borderLeftWidth: 4,
     backgroundColor: "white",
+    padding: 10,
+    borderBottomWidth: 1,
   },
   dateView: {
     flexDirection: "row",
@@ -225,18 +218,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   textView: {
-    marginLeft: 20,
-    marginTop: 10,
-    width: "50%",
+    width: "58%",
   },
   dateText: {
     fontWeight: "bold",
     fontSize: 20,
     color: colors.header,
   },
-  emotionView: {
+  space: {
+    width: 5,
+  },
+  emotionText: {
     flexDirection: "row",
-    marginBottom: 10,
     fontSize: 20,
     justifyContent: "center",
   },
@@ -246,15 +239,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   EntryPreviewText: {
-    marginBottom: 10,
     fontSize: 20,
     color: colors.text,
   },
   imageView: {
     position: "absolute",
     alignSelf: "flex-end",
-    height: "100%",
-    width: "40%",
+    height: 150,
+    width: 150,
+    padding: 10,
     justifyContent: "center",
   },
   imageActivityIndicator: {
@@ -265,11 +258,6 @@ const styles = StyleSheet.create({
     width: "100%",
     resizeMode: "cover",
     opacity: 1,
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
   },
-  jurnalView: {
-    marginLeft: 20,
-    marginBottom: 10,
-  },
+  jurnalView: {},
 });
