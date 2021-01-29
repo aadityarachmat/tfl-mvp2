@@ -8,7 +8,7 @@ import { getImageURI } from "../../helperfns/firebaseHelpers";
 import { getUserId } from "../../helperfns/InitializeUser";
 import getDate from "../../helperfns/date";
 
-import { SelectedIconTag } from "./IconTag";
+import { SelectedIconTag } from "../IconTag";
 
 const colors = {
   rowHeader: "orange",
@@ -51,8 +51,6 @@ const GridAndImageView = ({ items, path, dataKey }) => {
   }, []);
 
   const getImage = async (path) => {
-    console.log(path);
-
     const uri = await getImageURI(path);
     setUri(uri);
   };
@@ -74,14 +72,11 @@ export default Grids = ({ data, type }) => {
   const date = getDate();
   const dataKeys = Object.keys(data);
 
-  console.log("Grids dataKeys", dataKeys);
-
   return (
     <View>
       {dataKeys.map((dataKey, i) => {
         // Path is for images
         const path = `userData/${userId}/jurnal/${date}/${type}/${dataKey}`;
-        console.log("Grids path", path);
         return (
           <View key={i}>
             <GridAndImageView

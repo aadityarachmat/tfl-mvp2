@@ -60,7 +60,6 @@ export default class JurnalScreen extends React.Component {
     this.setState((prevState) => ({
       calendarVisible: !prevState.calendarVisible,
     }));
-    console.log(this.state.calendarVisible);
   };
 
   render() {

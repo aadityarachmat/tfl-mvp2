@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 
 import getIcon from "../../helperfns/getIcons";
 
-import { ToggleableIconTag } from "../Jurnal/IconTag";
+import { ToggleableIconTag } from "../IconTag";
 
 export default class CardItems extends React.Component {
   render() {
@@ -19,6 +19,7 @@ export default class CardItems extends React.Component {
               key={key}
               text={items[key]["value"]}
               icon={items[key]["value"]}
+              selected={items[key]["selected"]}
               onPress={() => this.props.toggleSelected(key)}
             />
           </View>

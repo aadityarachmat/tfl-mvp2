@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-import getIcon from "../../helperfns/getIcons";
+import getIcon from "../helperfns/getIcons";
 
 const colors = {
   tag: "#64dfdf",
@@ -10,6 +10,7 @@ const colors = {
 export const UnselectedIconTag = ({ icon, text }) => (
   <View style={styles.container}>
     {getIcon(icon)}
+    <View style={styles.spaceView} />
     <Text style={styles.unselectedText}>{text}</Text>
   </View>
 );
@@ -17,6 +18,7 @@ export const UnselectedIconTag = ({ icon, text }) => (
 export const SelectedIconTag = ({ icon, text }) => (
   <View style={[styles.container, styles.selectedContainer]}>
     {getIcon(icon)}
+    <View style={styles.spaceView} />
     <Text style={styles.selectedText}>{text}</Text>
   </View>
 );
@@ -53,14 +55,20 @@ export class ToggleableIconTag extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    height: 45,
     borderRadius: 200,
-    padding: 20,
+    padding: 10,
     marginRight: 10,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
     borderColor: colors.tag,
+    flexDirection: "row",
+    alignContent: "space-between",
+  },
+  spaceView: {
+    width: 5,
   },
   unselectedText: {
     color: colors.tag,

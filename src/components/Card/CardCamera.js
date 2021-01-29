@@ -32,10 +32,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
   },
-  image: {
-    height: 150,
-    width: 150,
-  },
+
   text: {
     textAlign: "center",
   },

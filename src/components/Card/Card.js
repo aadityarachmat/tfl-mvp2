@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Button, Alert } from "react-native";
+import { StyleSheet, View, Text, Button, Alert, Image } from "react-native";
 
 import PropTypes from "prop-types";
 
@@ -15,15 +15,7 @@ import CardCamera from "./CardCamera";
 import CardItems from "./CardItems";
 import Header from "./Header";
 import { pickPhoto, takePhoto } from "../../helperfns/Camera";
-
-const DEFAULT_ITEMS = {
-  One: { value: "Jack", selected: false },
-  Two: { value: "Jill", selected: false },
-  Three: { value: "Austin", selected: false },
-  Four: { value: "Foo", selected: false },
-  Five: { value: "Baz", selected: false },
-  Six: { value: "Bar", selected: false },
-};
+import CardOptionsView from "./CardOptionsView";
 
 const filterObject = (obj, filterProperty) => {
   let result = {};
@@ -40,14 +32,13 @@ const getUpdatedItems = (items, itemsSelected) => {
   for (key in itemsSelected) {
     result[key] = itemsSelected[key];
   }
-  console.log(result);
   return result;
 };
 
 class Card extends React.Component {
   state = {
     uri: "",
-    items: DEFAULT_ITEMS,
+    items: {},
     newItem: "",
     minimized: true,
   };
@@ -92,7 +83,7 @@ class Card extends React.Component {
             this.setState({ uri });
           },
         },
-        { text: "Cancel", onPress: () => console.log("Cancelled") },
+        { text: "Cancel" },
       ],
       { cancelable: true }
     );
@@ -102,7 +93,6 @@ class Card extends React.Component {
     const items = { ...this.state.items };
     const previouslySelected = items[item].selected;
     items[item] = { ...items[item], selected: !previouslySelected };
-    console.log(items);
     this.setState({ items });
   };
 
@@ -134,6 +124,7 @@ class Card extends React.Component {
 
   render() {
     const { uri, items, newItem, minimized } = this.state;
+    console.log("uri", uri);
     return (
       <View style={styles.card}>
         <Header
@@ -142,16 +133,16 @@ class Card extends React.Component {
           minimized={minimized}
         />
         {!minimized && (
-          <>
-            <CardCamera getPhoto={this.getPhoto} uri={uri} />
+          <View>
+            <CardOptionsView getPhoto={this.getPhoto} submit={this.submit} />
+            {uri === "" && <Image source={{ uri: uri }} style={styles.image} />}
             <CardItems items={items} toggleSelected={this.toggleSelected} />
             <AddItemField
               value={newItem}
               onChangeText={(text) => this.handleAddItemFieldChange(text)}
               addItem={() => this.addItem()}
             />
-            <Button title="Submit" onPress={() => this.submit()} />
-          </>
+          </View>
         )}
       </View>
     );
@@ -183,5 +174,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+  },
+  image: {
+    height: 150,
+    width: 150,
   },
 });
