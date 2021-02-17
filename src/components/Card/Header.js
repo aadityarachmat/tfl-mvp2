@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
   title: {
     margin: 20,
     fontSize: 20,
-    fontWeight: "bold",
   },
   container: {
     flexDirection: "row",

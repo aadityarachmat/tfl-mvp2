@@ -40,7 +40,7 @@ class Card extends React.Component {
     uri: "",
     items: {},
     newItem: "",
-    minimized: true,
+    minimized: false,
   };
 
   componentDidMount() {
@@ -135,7 +135,7 @@ class Card extends React.Component {
         {!minimized && (
           <View>
             <CardOptionsView getPhoto={this.getPhoto} submit={this.submit} />
-            {uri === "" && <Image source={{ uri: uri }} style={styles.image} />}
+            {uri !== "" && <Image source={{ uri: uri }} style={styles.image} />}
             <CardItems items={items} toggleSelected={this.toggleSelected} />
             <AddItemField
               value={newItem}
@@ -160,23 +160,15 @@ Card.propTypes = {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 10,
-    borderColor: "lightgrey",
-    backgroundColor: "#fff",
-    marginHorizontal: 10,
-    marginVertical: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    backgroundColor: "white",
+    margin: 10,
+    borderRadius: 20,
   },
   image: {
-    height: 150,
-    width: 150,
+    height: 300,
+    width: 300,
+    borderRadius: 20,
+    alignSelf: "center",
+    margin: 20,
   },
 });

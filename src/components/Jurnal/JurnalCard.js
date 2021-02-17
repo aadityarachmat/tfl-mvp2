@@ -48,8 +48,8 @@ export default class JurnalCard extends React.Component {
           <Text style={styles.title}>{date}</Text>
         </View>
 
-        <Grids data={aktivitas} type="aktivitas" />
-        <Grids data={makan} type="makan" />
+        <Grids data={aktivitas} type="aktivitas" date={date} />
+        <Grids data={makan} type="makan" date={date} />
       </View>
     );
   }

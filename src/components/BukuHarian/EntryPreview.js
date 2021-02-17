@@ -146,9 +146,10 @@ export default class EntryPreview extends React.Component {
   render() {
     const { entries, day } = this.props;
     const { uri, jurnalData } = this.state;
-    const activities = getActivities(jurnalData);
+    const activities = jurnalData ? getActivities(jurnalData) : null;
+    console.log("activities", activities);
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={this.onPress}>
         <View style={styles.imageView}>
           {uri !== "" ? (
             <Image source={{ uri: uri }} style={styles.image} />
@@ -160,7 +161,7 @@ export default class EntryPreview extends React.Component {
           )}
         </View>
 
-        <TouchableOpacity style={styles.textView} onPress={this.onPress}>
+        <View style={styles.textView}>
           <View style={styles.dateView}>
             <Icon name="today" size={25} color={colors.header} />
             <Text style={styles.dateText}>{day}</Text>
@@ -181,7 +182,7 @@ export default class EntryPreview extends React.Component {
             <View style={styles.space}></View>
             {shortenText(entries[day].text)}
           </Text>
-        </TouchableOpacity>
+        </View>
 
         <View style={{ flexGrow: 1 }}></View>
 
@@ -190,13 +191,13 @@ export default class EntryPreview extends React.Component {
             <Tags
               category="Aktivitas"
               items={activities}
-              type="Selected"
+              type="TouchableIcon"
               selected={true}
               width={"58%"}
             />
           )}
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

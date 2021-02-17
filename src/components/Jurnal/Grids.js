@@ -61,15 +61,14 @@ const GridAndImageView = ({ items, path, dataKey }) => {
     <View style={styles.gridAndImageView}>
       <Text style={styles.rowHeaderText}>{rowHeaderText}</Text>
       <View style={styles.horizontalLine} />
-      {uri ? <Image style={styles.image} source={{ uri }}></Image> : null}
+      {uri ? <Image style={styles.image} source={{ uri }}></Image> : <View />}
       <Grid items={items} />
     </View>
   );
 };
 
-export default Grids = ({ data, type }) => {
+export default Grids = ({ data, type, date }) => {
   const userId = getUserId();
-  const date = getDate();
   const dataKeys = Object.keys(data);
 
   return (
@@ -98,8 +97,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   image: {
-    height: 350,
-    width: 350,
+    height: 300,
+    width: "100%",
     borderRadius: 18,
   },
   gridContainer: {

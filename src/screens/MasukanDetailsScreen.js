@@ -1,9 +1,6 @@
 import React from "react";
-import { render } from "react-dom";
 import { View, Text, StyleSheet, Image, ScrollView, Modal } from "react-native";
 import Emoji from "react-native-emoji";
-import * as firebase from "firebase";
-import { withTheme } from "react-native-elements";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 
@@ -37,16 +34,14 @@ export default class MasukanDetailsScreen extends React.Component {
         </Modal>
 
         <ScrollView style={styles.scrollView}>
-          <View style={[styles.imageView, styles.shadow]}>
-            {uri !== "" ? (
-              <Image source={{ uri: uri }} style={styles.image} />
-            ) : (
-              <Text>Loading...</Text>
-            )}
-          </View>
+          {uri !== "" ? (
+            <Image source={{ uri: uri }} style={styles.image} />
+          ) : (
+            <Text>Loading...</Text>
+          )}
           <View style={[styles.cardView, styles.shadow]}>
             <View style={styles.dateView}>
-              <Icon name="today" size={35} color={colors.header} />
+              <Icon name="today" size={48} color={colors.header} />
               <Text style={styles.dateText}>{day}</Text>
             </View>
             <Text style={styles.emoji}>
@@ -69,7 +64,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   dateText: {
-    fontSize: 30,
+    fontSize: 48,
     fontWeight: "bold",
     color: colors.header,
   },

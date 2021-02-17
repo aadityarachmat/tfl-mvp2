@@ -6,6 +6,10 @@ import {
   Alert,
   Image,
   StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -114,30 +118,38 @@ export default class ModalView extends React.Component {
     const { text, emotionSelected, uri } = this.state;
     const { toggleModal, day } = this.props;
     return (
-      <View style={[styles.container, { marginTop: 30 }]}>
-        <ModalHeader currentDate={day} toggleModal={toggleModal} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <View>
+            <ModalHeader currentDate={day} toggleModal={toggleModal} />
 
-        {uri !== "" && <Image source={{ uri: uri }} style={styles.image} />}
+            {uri !== "" && <Image source={{ uri: uri }} style={styles.image} />}
 
-        <OptionsView
-          emotionSelected={emotionSelected}
-          getPhoto={this.getPhoto}
-          delete={this.delete}
-          submit={this.submit}
-          selectEmotion={this.selectEmotion}
-        />
+            <OptionsView
+              emotionSelected={emotionSelected}
+              getPhoto={this.getPhoto}
+              delete={this.delete}
+              submit={this.submit}
+              selectEmotion={this.selectEmotion}
+            />
 
-        <ScrollView keyboardDismissMode="interactive">
-          <TextInput
-            multiline={true}
-            autoFocus={true}
-            value={text}
-            placeholder="Perasaanku hari ini..."
-            onChangeText={(text) => this.handleTextChange(text)}
-            style={[styles.input, { height: this.state.height }]}
-          />
-        </ScrollView>
-      </View>
+            <ScrollView keyboardDismissMode="interactive">
+              <TextInput
+                multiline={true}
+                autoFocus={true}
+                value={text}
+                placeholder="Perasaanku hari ini..."
+                onChangeText={(text) => this.handleTextChange(text)}
+                style={[styles.input, { height: this.state.height }]}
+              />
+            </ScrollView>
+          </View>
+          <View style={{ flex: 1 }} />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -147,22 +159,16 @@ ModalView.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "stretch",
-    marginLeft: 20,
-    marginRight: 20,
-  },
+  container: { flex: 1, margin: 20, justifyContent: "flex-end" },
   image: {
-    height: 300,
-    width: "90%",
+    height: 250,
+    width: "100%",
     marginBottom: 20,
     borderRadius: 10,
-    alignSelf: "center",
   },
   input: {
     paddingTop: 20,
+    paddingBottom: 20,
     fontSize: 18,
     fontFamily: "System",
   },

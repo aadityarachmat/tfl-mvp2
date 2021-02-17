@@ -17,9 +17,9 @@ export default class JurnalCards extends React.Component {
     const lastWeek = getLastDays(dateObject, 7);
     return (
       <ScrollView style={styles.container}>
-        {lastWeek.map((date, i) => {
+        {lastWeek.map((date) => {
           if (data[date]) {
-            return <JurnalCard date={date} key={i} data={data} />;
+            return <JurnalCard date={date} key={date} data={data} />;
           }
           return null;
         })}

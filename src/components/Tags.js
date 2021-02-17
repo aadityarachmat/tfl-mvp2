@@ -2,39 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 
 import { UnselectedTag, SelectedTag, TouchableTag, ToggleableTag } from "./Tag";
-
-const truncateText = (index, text) => {
-  if (text.length > index) {
-    return text.substring(0, index) + "...";
-  }
-  return text;
-};
-
-const getTruncatedCharacterAndWord = (items) => {
-  let character = 14;
-  let word = 0;
-  while (items[word] && character > items[word].length) {
-    character = character - items[word].length;
-    word++;
-  }
-  return { character, word };
-};
-
-const truncateItems = (items) => {
-  let truncatedItems = items;
-  let index = items.length - 1;
-
-  const { character, word } = getTruncatedCharacterAndWord(items);
-  while (index > word) {
-    truncatedItems.pop();
-    index--;
-  }
-
-  if (truncatedItems[word])
-    truncatedItems[word] = truncateText(character, truncatedItems[word]);
-
-  return truncatedItems;
-};
+import { TouchableIconTag, ToggleableIconTag } from "./IconTag";
 
 const mapTags = (items, type, selected) => {
   return items.map((item) => {
@@ -44,11 +12,25 @@ const mapTags = (items, type, selected) => {
       return <TouchableTag text={item} key={item} selected={selected} />;
     if (type === "Toggleable")
       return <ToggleableTag text={item} key={item} selected={selected} />;
+    if (type === "TouchableIcon")
+      return (
+        <TouchableIconTag
+          text={item}
+          icon={item}
+          key={item}
+          selected={selected}
+        />
+      );
+    if (type === "ToggleableIcon")
+      return (
+        <ToggleableIconTag
+          text={item}
+          icon={item}
+          key={item}
+          selected={selected}
+        />
+      );
   });
-};
-
-const colors = {
-  tag: "#64dfdf",
 };
 
 export default Tags = ({ items, type, selected, width }) => {
