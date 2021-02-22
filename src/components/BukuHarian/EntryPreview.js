@@ -31,15 +31,14 @@ const getImageURI = async (path) => {
     .ref(path)
     .getDownloadURL()
     .catch((error) => {
-      console.log("there is an error in getImageURI");
       return null;
     });
 };
 
 const shortenText = (text) => {
   const length = text.length;
-  if (length > 20) {
-    return text.substring(0, 18) + "...";
+  if (length > 15) {
+    return text.substring(0, 13) + "...";
   }
   return text;
 };
@@ -147,7 +146,6 @@ export default class EntryPreview extends React.Component {
     const { entries, day } = this.props;
     const { uri, jurnalData } = this.state;
     const activities = jurnalData ? getActivities(jurnalData) : null;
-    console.log("activities", activities);
     return (
       <TouchableOpacity style={styles.container} onPress={this.onPress}>
         <View style={styles.imageView}>
@@ -167,7 +165,7 @@ export default class EntryPreview extends React.Component {
             <Text style={styles.dateText}>{day}</Text>
           </View>
 
-          <Text style={styles.EntryPreviewText}>
+          <View style={styles.EntryPreviewView}>
             <View
               style={[
                 styles.emotionColorCircle,
@@ -180,8 +178,10 @@ export default class EntryPreview extends React.Component {
               <Emoji name={entries[day].emotionSelected} />
             </Text>
             <View style={styles.space}></View>
-            {shortenText(entries[day].text)}
-          </Text>
+            <Text style={styles.EntryPreviewText}>
+              {shortenText(entries[day].text)}
+            </Text>
+          </View>
         </View>
 
         <View style={{ flexGrow: 1 }}></View>
@@ -237,6 +237,10 @@ const styles = StyleSheet.create({
     height: 16,
     width: 16,
     borderRadius: 10,
+  },
+  EntryPreviewView: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   EntryPreviewText: {
     fontSize: 20,

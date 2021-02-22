@@ -58,13 +58,15 @@ export class ToggleableIconTag extends React.Component {
     const { text, icon } = this.props;
     const { selected } = this.state;
     return (
-      <TouchableOpacity onPress={() => this.onPress()}>
-        {selected ? (
-          <SelectedIconTag text={text} icon={icon} />
-        ) : (
-          <UnselectedIconTag text={text} icon={icon} />
-        )}
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity onPress={() => this.onPress()}>
+          {selected ? (
+            <SelectedIconTag text={text} icon={icon} />
+          ) : (
+            <UnselectedIconTag text={text} icon={icon} />
+          )}
+        </TouchableOpacity>
+      </View>
     );
   }
 }

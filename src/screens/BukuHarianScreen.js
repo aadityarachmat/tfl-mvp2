@@ -59,11 +59,15 @@ export default class BukuHarianScreen extends React.Component {
     day: "",
   };
 
-  async componentDidMount() {
+  componentDidMount = () => {
+    this.reload();
+  };
+
+  reload = async () => {
     await this.setBukuHarianEntriesToState();
     this.setTodayToState();
     this.setMarkedDatesToState(this.state.day);
-  }
+  };
 
   setMarkedDatesToState = (dateSelected) => {
     const { bukuHarianEntries } = this.state;
@@ -76,23 +80,18 @@ export default class BukuHarianScreen extends React.Component {
     this.setState({ today: today, day: today });
   };
 
-  async setBukuHarianEntriesToState() {
+  setBukuHarianEntriesToState = async () => {
     database = firebase.database();
     const userId = getUserId();
 
-    bukuHarianEntries = await database
+    await database
       .ref(`/userData/${userId}/bukuHarian`)
       .once("value")
       .then((snap) => {
-        if (snap.exists()) {
-          return snap.val();
-        } else {
-          return {};
-        }
+        const bukuHarianEntries = snap.val();
+        this.setState({ bukuHarianEntries });
       });
-
-    this.setState({ bukuHarianEntries });
-  }
+  };
 
   // todo: can edit old entries
   toggleModal = () => {
@@ -124,7 +123,11 @@ export default class BukuHarianScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Modal visible={modalVisible} animationType="slide">
-          <ModalView toggleModal={this.toggleModal} day={today} />
+          <ModalView
+            toggleModal={this.toggleModal}
+            day={today}
+            reload={this.reload}
+          />
         </Modal>
 
         <ToggleCalendar

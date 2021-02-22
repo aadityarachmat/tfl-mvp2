@@ -30,7 +30,11 @@ export default class MasukanDetailsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Modal visible={modalVisible} animationType="slide">
-          <ModalView toggleModal={this.toggleModal} day={day} />
+          <ModalView
+            toggleModal={this.toggleModal}
+            day={day}
+            reload={() => null}
+          />
         </Modal>
 
         <ScrollView style={styles.scrollView}>

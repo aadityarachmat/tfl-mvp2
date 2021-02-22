@@ -18,11 +18,11 @@ const colors = {
 const interpret = (text) => {
   switch (text) {
     case "beraktivitas":
-      return "Aktivitasku...";
+      return "Hari ini saya beraktivitas...";
     case "bersama":
-      return "Kawanku...";
+      return "Hari ini saya bersama...";
     case "berada":
-      return "Tempat-tempatku...";
+      return "Hari ini saya berada di...";
     case "sarapanku":
       return "Sarapanku...";
     case "makanSiangku":
@@ -35,7 +35,7 @@ const interpret = (text) => {
 const Grid = ({ items }) => {
   return (
     <View style={styles.gridContainer}>
-      {items.map((item, i) => (
+      {items.map((item) => (
         <SelectedIconTag icon={item} text={item} key={item} />
       ))}
     </View>

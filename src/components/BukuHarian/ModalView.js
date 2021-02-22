@@ -14,7 +14,6 @@ import {
 import PropTypes from "prop-types";
 
 import { pickPhoto, takePhoto } from "../../helperfns/Camera";
-import getDate from "../../helperfns/date";
 import { getUserId } from "../../helperfns/InitializeUser";
 import {
   getData,
@@ -51,6 +50,7 @@ export default class ModalView extends React.Component {
     const { day } = this.props;
     const path = getPath(day);
     const uri = await getImageURI(path);
+    console.log("uri", uri);
     if (uri) this.setState({ uri });
   };
 
@@ -93,7 +93,9 @@ export default class ModalView extends React.Component {
         {
           text: "Pilih dari camera roll",
           onPress: async () => {
+            console.log("running pillih");
             uri = await pickPhoto();
+            console.log("pilih uri", uri);
             this.setState({ uri });
           },
         },
@@ -116,7 +118,7 @@ export default class ModalView extends React.Component {
 
   render() {
     const { text, emotionSelected, uri } = this.state;
-    const { toggleModal, day } = this.props;
+    const { toggleModal, day, reload } = this.props;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
@@ -134,6 +136,7 @@ export default class ModalView extends React.Component {
               delete={this.delete}
               submit={this.submit}
               selectEmotion={this.selectEmotion}
+              reload={reload}
             />
 
             <ScrollView keyboardDismissMode="interactive">
