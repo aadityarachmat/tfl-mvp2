@@ -14,7 +14,7 @@ export default class CardOptionsView extends React.Component {
         <TouchableOpacity onPress={() => submit()}>
           <Icon name="send" size={30} color="darkslateblue" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.delete()}>
           <Icon name="delete" size={30} color="teal" />
         </TouchableOpacity>
       </View>

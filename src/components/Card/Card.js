@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 
 import {
   setData,
+  deleteData,
+  deleteImage,
   uploadImage,
   getData,
   getImageURI,
@@ -113,13 +115,20 @@ class Card extends React.Component {
     this.setState({ newItem });
   };
 
-  submit = async () => {
+  submit = () => {
     const { itemsPath, imagesPath } = this.props;
     const { items, uri } = this.state;
     const filteredItems = filterObject(items, "selected");
     setData(itemsPath, filteredItems);
     if (uri) uploadImage(imagesPath, uri);
     alert("Uploaded");
+  };
+
+  delete = () => {
+    const { itemsPath, imagesPath } = this.props;
+    deleteData(itemsPath);
+    deleteImage(imagesPath);
+    alert("Deleted");
   };
 
   render() {
@@ -134,7 +143,11 @@ class Card extends React.Component {
         />
         {!minimized && (
           <View>
-            <CardOptionsView getPhoto={this.getPhoto} submit={this.submit} />
+            <CardOptionsView
+              getPhoto={this.getPhoto}
+              submit={this.submit}
+              delete={this.delete}
+            />
             {uri !== "" && <Image source={{ uri: uri }} style={styles.image} />}
             <CardItems items={items} toggleSelected={this.toggleSelected} />
             <AddItemField
